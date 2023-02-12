@@ -80,7 +80,7 @@ const renderForecast = function (weatherData) {
     let futureForecast = weatherData.filter(function (forecast) {
         // Carefully setting the filter parameters, if just using "12", 
         // data like "2023-02-12 88:88:88" will be chosen multiple times.
-        return forecast.dt_txt.includes("12");
+        return forecast.dt_txt.includes("12:00:00");
     });
     console.log(futureForecast);
     for (let i = 0; i < futureForecast.length; i++) {
