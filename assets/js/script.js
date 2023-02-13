@@ -124,11 +124,12 @@ const render5DayForecast = function (weatherData) {
     }
 };
 
-const fetchWeather = function (location) {
+const fetchWeatherByCoordinates = function (location) {
     console.log(location);
     let latitude = location.lat;
     let longitude = location.lon;
     let city = location.name;
+    // Call 5 day / 3 hour forecast data, here comes the doc: https://openweathermap.org/forecast5#5days
     let queryWeatherURL = `http://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&units=metric&appid=${openWeatherAPIKey}`;
     // List of all API parameters with units: https://openweathermap.org/weather-data
     // Here the units is set to be metric!!!
@@ -148,6 +149,7 @@ const fetchWeather = function (location) {
 };
 
 const fetchCoordinates = function (cityName) {
+    // Direct geocoding, get coordinates by location name: https://openweathermap.org/api/geocoding-api#direct
     const queryURL = `http://api.openweathermap.org/geo/1.0/direct?q=${cityName}&limit=10&appid=${openWeatherAPIKey}`;
     // Vanilla JS fetch
     fetch(queryURL, { method: "GET" }).then(function (data) {
@@ -157,7 +159,7 @@ const fetchCoordinates = function (cityName) {
             console.log("Location not found");
         } else {
             prependSearchHistory(cityName);
-            fetchWeather(response[0]);
+            fetchWeatherByCoordinates(response[0]);
         }
         console.log(response);
     });
