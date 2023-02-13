@@ -1,7 +1,7 @@
 // There are too many options of API in OpenWeather... I am in allodoxaphobia now. 
 // To make things easy, I will attach the ref doc link as comments before I use any API.
 const openWeatherAPIKey = "1e97ee70630096d453c30282fbd39878";
-const openWeatherAPIDomainName = "http://api.openweathermap.org";
+const openWeatherAPIDomainName = "https://api.openweathermap.org";
 // Call 5 day / 3 hour forecast data, here comes the doc:
 // https://openweathermap.org/forecast5#5days
 // const openWeather5Day3HourAPIURL =
@@ -46,7 +46,7 @@ const renderCurrentWeather = function (cityName, weatherData) {
     let windSpeedMeterPerSecond = weatherData["wind"]["speed"];
     let humidityPercentage = weatherData["main"]["humidity"];
     // Weather Icon: https://openweathermap.org/weather-conditions
-    let iconURL = `http://openweathermap.org/img/wn/${weatherData.weather[0].icon}@2x.png`;
+    let iconURL = `https://openweathermap.org/img/wn/${weatherData.weather[0].icon}@2x.png`;
     let iconDescription = weatherData.weather[0].description || weatherData[0].main;
     let card = $("<div>");
     let cardBody = $("<div>");
@@ -98,7 +98,7 @@ const render5DayForecast = function (weatherData) {
         let windSpeedMeterPerSecond = futureForecast[i].wind.speed;
         let humidityPercentage = futureForecast[i].main.humidity;
         // Weather Icon: https://openweathermap.org/weather-conditions
-        let iconURL = `http://openweathermap.org/img/wn/${futureForecast[i].weather[0].icon}@2x.png`;
+        let iconURL = `https://openweathermap.org/img/wn/${futureForecast[i].weather[0].icon}@2x.png`;
         console.log(iconURL);
         let iconDescription = futureForecast[i].weather[0].description;
         let col = $("<div>");
@@ -136,7 +136,7 @@ const fetchWeatherByCoordinates = function (location) {
     let longitude = location.lon;
     let city = location.name;
     // Call 5 day / 3 hour forecast data, here comes the doc: https://openweathermap.org/forecast5#5days
-    let queryWeatherURL = `http://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&units=metric&appid=${openWeatherAPIKey}`;
+    let queryWeatherURL = `https://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&units=metric&appid=${openWeatherAPIKey}`;
     // List of all API parameters with units: https://openweathermap.org/weather-data
     // Here the units is set to be metric!!!
     console.log(queryWeatherURL);
@@ -156,7 +156,7 @@ const fetchWeatherByCoordinates = function (location) {
 
 const fetchCoordinates = function (cityName) {
     // Direct geocoding, get coordinates by location name: https://openweathermap.org/api/geocoding-api#direct
-    const queryURL = `http://api.openweathermap.org/geo/1.0/direct?q=${cityName}&limit=10&appid=${openWeatherAPIKey}`;
+    const queryURL = `https://api.openweathermap.org/geo/1.0/direct?q=${cityName}&limit=10&appid=${openWeatherAPIKey}`;
     // Vanilla JS fetch
     fetch(queryURL, { method: "GET" }).then(function (data) {
         return data.json();
