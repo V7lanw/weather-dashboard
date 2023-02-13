@@ -18,7 +18,12 @@ const renderSearchHistory = function () {
     for (let i = 0; i < searchHistory.length; i++) {
         let btn = $("<button>");
         btn.attr("type", "button");
-        btn.addClass("history-btn btn-history");
+        btn.addClass("history-btn btn-history btn btn-block");
+        if (i % 2) {
+            btn.addClass("btn-secondary btn-odd");
+        } else {
+            btn.addClass("btn-secondary btn-even");
+        }
         btn.attr("data-search", searchHistory[i]);
         btn.text(searchHistory[i]);
         searchHistoryContainer.prepend(btn);
@@ -51,7 +56,7 @@ const renderCurrentWeather = function (cityName, weatherData) {
     let windEl = $("<p>");
     let humidityEl = $("<p>");
     card.attr("class", "card");
-    cardBody.attr("class", "card-body");
+    cardBody.attr("class", "card-body weather-current");
     card.append(cardBody);
     heading.attr("class", "h3 card-title");
     temperatureEl.attr("class", "card-text");
@@ -76,6 +81,7 @@ const render5DayForecast = function (weatherData) {
     let heading = $("<h4>");
     headingCol.attr("class", "col-12");
     heading.text("5 day forecast at noon");
+    heading.attr("class", "forecast-5day-heading")
     headingCol.append(heading);
     forecastContainer.html("");
     forecastContainer.append(headingCol);
@@ -107,7 +113,7 @@ const render5DayForecast = function (weatherData) {
         card.append(cardBody);
         cardBody.append(cardTitle, weatherIcon, temperatureEl, windEl, humidityEl);
         col.attr("class", "col-md");
-        card.attr("class", "card bg-primary h-100 text-white");
+        card.attr("class", "card h-100 text-white weather-5day");
         cardTitle.attr("class", "card-title");
         temperatureEl.attr("class", "card-text");
         windEl.attr("class", "card-text");

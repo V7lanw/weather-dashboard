@@ -1,3 +1,49 @@
+body {
+    background-color: #3E3175 !important;
+}
+
 .bg-dark-bubble {
     background-image: url("../images/stripe.png");
+}
+
+#form-heading {
+    color: #877CB0;
+}
+
+.container-fluid {
+    background-color: #3E3175;
+}
+
+.search-button {
+    background-color: #241858 !important;
+}
+
+.hr-light {
+    border-top: 2px solid #FFF;
+}
+
+.btn-odd {
+    background-color: #877CB0 !important;
+    border-color: #877CB0 !important;
+}
+
+.btn-even {
+    background-color: #241858 !important;
+    border-color: #241858 !important;
+}
+
+.weather-current {
+    background-color: #877CB0;
+    border-color: #877CB0;
+    border: 1px solid rgba(0, 0, 0, 0.125);
+    border-radius: 0.25rem;
+}
+
+.forecast-5day-heading {
+    color: #877CB0;
+}
+
+.weather-5day {
+    background-color: #5F5293 !important;
+    padding: 5px;
 }
