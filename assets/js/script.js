@@ -36,34 +36,37 @@ const prependSearchHistory = function (city) {
 
 const renderCurrentWeather = function (cityName, weatherData) {
     let date = moment().format("D/M/YYYY");
+    // JS bracket notation
     let temperatureCelsius = weatherData["main"]["temp"];
-    let windKph = weatherData["wind"]["speed"];
-    let humidity = weatherData["main"]["humidity"];
+    let windSpeedMeterPerSecond = weatherData["wind"]["speed"];
+    let humidityPercentage = weatherData["main"]["humidity"];
+    // Weather Icon: https://openweathermap.org/weather-conditions
     let iconURL = `http://openweathermap.org/img/wn/${weatherData.weather[0].icon}@2x.png`;
     let iconDescription = weatherData.weather[0].description || weatherData[0].main;
     let card = $("<div>");
     let cardBody = $("<div>");
     let weatherIcon = $("<img>");
     let heading = $("<h2>");
-    let tempEl = $("<p>");
+    let temperatureEl = $("<p>");
     let windEl = $("<p>");
     let humidityEl = $("<p>");
     card.attr("class", "card");
     cardBody.attr("class", "card-body");
     card.append(cardBody);
     heading.attr("class", "h3 card-title");
-    tempEl.attr("class", "card-text");
+    temperatureEl.attr("class", "card-text");
     windEl.attr("class", "card-text");
     humidityEl.attr("class", "card-text");
     heading.text(`${cityName} (${date})`);
     weatherIcon.attr("src", iconURL);
     weatherIcon.attr("alt", iconDescription);
     heading.append(weatherIcon);
+    // List of all API parameters with units: https://openweathermap.org/weather-data
     // Using ".html" rather than ".text", or some special characters may not displayed correctly.
-    tempEl.html(`Temp ${temperatureCelsius} <span>&#8451;</span>`);
-    windEl.text(`Wind ${windKph} KPH`);
-    humidityEl.text(`Humidity ${humidity} %`);
-    cardBody.append(heading, tempEl, windEl, humidityEl);
+    temperatureEl.html(`Temperature: ${temperatureCelsius} <span>&#8451;</span>`);
+    windEl.text(`Wind speed: ${windSpeedMeterPerSecond} m/s`);
+    humidityEl.text(`Humidity: ${humidityPercentage} %`);
+    cardBody.append(heading, temperatureEl, windEl, humidityEl);
     todayContainer.html("");
     todayContainer.append(card);
 };
@@ -72,7 +75,7 @@ const renderForecast = function (weatherData) {
     let headingCol = $("<div>");
     let heading = $("<h4>");
     headingCol.attr("class", "col-12");
-    heading.text("5 day forecast");
+    heading.text("5 day forecast at noon");
     headingCol.append(heading);
     forecastContainer.html("");
     forecastContainer.append(headingCol);
@@ -108,7 +111,7 @@ const renderForecast = function (weatherData) {
         tempEl.attr("class", "card-text");
         windEl.attr("class", "card-text");
         humidityEl.attr("class", "card-text");
-        cardTitle.text(moment(futureForecast[i].dt_text).format("D/M/YYYY"));
+        cardTitle.text(moment(futureForecast[i].dt_txt).format("D/M/YYYY"));
         weatherIcon.attr("src", iconURL);
         weatherIcon.attr("alt", iconDescription);
         // Using ".html" rather than ".text", or some special characters may not displayed correctly.
@@ -126,6 +129,8 @@ const fetchWeather = function (location) {
     let longitude = location.lon;
     let city = location.name;
     let queryWeatherURL = `http://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&units=metric&appid=${openWeatherAPIKey}`;
+    // List of all API parameters with units: https://openweathermap.org/weather-data
+    // Here the units is set to be metric!!!
     console.log(queryWeatherURL);
     // Notice!!!
     // If you use ajax like me, make sure your query URL starts with "http://" or "https://", 
