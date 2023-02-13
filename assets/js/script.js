@@ -71,7 +71,7 @@ const renderCurrentWeather = function (cityName, weatherData) {
     todayContainer.append(card);
 };
 
-const renderForecast = function (weatherData) {
+const render5DayForecast = function (weatherData) {
     let headingCol = $("<div>");
     let heading = $("<h4>");
     headingCol.attr("class", "col-12");
@@ -87,38 +87,39 @@ const renderForecast = function (weatherData) {
     });
     console.log(futureForecast);
     for (let i = 0; i < futureForecast.length; i++) {
+        // JS dot notation
+        let temperatureCelsius = futureForecast[i].main.temp;
+        let windSpeedMeterPerSecond = futureForecast[i].wind.speed;
+        let humidityPercentage = futureForecast[i].main.humidity;
+        // Weather Icon: https://openweathermap.org/weather-conditions
         let iconURL = `http://openweathermap.org/img/wn/${futureForecast[i].weather[0].icon}@2x.png`;
         console.log(iconURL);
         let iconDescription = futureForecast[i].weather[0].description;
-        let tempC = futureForecast[i].main.temp;
-        let humidity = futureForecast[i].main.humidity;
-        let windKph = futureForecast[i].wind.speed;
         let col = $("<div>");
         let card = $("<div>");
         let cardBody = $("<div>");
         let cardTitle = $("<h5>");
         let weatherIcon = $("<img>");
-        let tempEl = $("<p>");
+        let temperatureEl = $("<p>");
         let windEl = $("<p>");
         let humidityEl = $("<p>");
         col.append(card);
         card.append(cardBody);
-        cardBody.append(cardTitle, weatherIcon, tempEl, windEl, humidityEl);
-
+        cardBody.append(cardTitle, weatherIcon, temperatureEl, windEl, humidityEl);
         col.attr("class", "col-md");
         card.attr("class", "card bg-primary h-100 text-white");
         cardTitle.attr("class", "card-title");
-        tempEl.attr("class", "card-text");
+        temperatureEl.attr("class", "card-text");
         windEl.attr("class", "card-text");
         humidityEl.attr("class", "card-text");
         cardTitle.text(moment(futureForecast[i].dt_txt).format("D/M/YYYY"));
         weatherIcon.attr("src", iconURL);
         weatherIcon.attr("alt", iconDescription);
+        // List of all API parameters with units: https://openweathermap.org/weather-data
         // Using ".html" rather than ".text", or some special characters may not displayed correctly.
-        tempEl.html(`Temp ${tempC} <span>&#8451;</span>`);
-        windEl.html(`Wind: ${windKph} KPH`);
-        humidityEl.html(`Humidity ${humidity} %`);
-
+        temperatureEl.html(`Temperature: ${temperatureCelsius} <span>&#8451;</span>`);
+        windEl.html(`Wind speed: ${windSpeedMeterPerSecond} m/s`);
+        humidityEl.html(`Humidity: ${humidityPercentage} %`);
         forecastContainer.append(col);
     }
 };
@@ -142,12 +143,13 @@ const fetchWeather = function (location) {
     }).then(function (response) {
         console.log(response);
         renderCurrentWeather(city, response.list[0]);
-        renderForecast(response.list);
+        render5DayForecast(response.list);
     });
 };
 
 const fetchCoordinates = function (cityName) {
     const queryURL = `http://api.openweathermap.org/geo/1.0/direct?q=${cityName}&limit=10&appid=${openWeatherAPIKey}`;
+    // Vanilla JS fetch
     fetch(queryURL, { method: "GET" }).then(function (data) {
         return data.json();
     }).then(function (response) {
